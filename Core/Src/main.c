@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "bmp280.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,7 +34,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define BMP280_ADRESS 0x76 // in HAL function you need to move <<1
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -45,6 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+BMP280_t BMP_280;
 
 /* USER CODE END PV */
 
@@ -90,13 +91,20 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-
+BMP280_Init(&BMP_280,&hi2c1,BMP280_ADRESS);
+BMP280_SetPressureOversampling(&BMP_280, BMP280_ULTRAHIGHRES);
+BMP280_SetTemperatureOversampling(&BMP_280,BMP280_TEMPERATURE_20BIT);
+float Temp, Pressure;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	 BMP280_ReadPressureAndTemperature(&BMP_280, &Pressure, &Temp);
+	 HAL_Delay(100);
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
