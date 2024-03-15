@@ -91,9 +91,11 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+
 BMP280_Init(&BMP_280,&hi2c1,BMP280_ADRESS);
 BMP280_SetPressureOversampling(&BMP_280, BMP280_ULTRAHIGHRES);
 BMP280_SetTemperatureOversampling(&BMP_280,BMP280_TEMPERATURE_20BIT);
+
 float Temp, Pressure;
   /* USER CODE END 2 */
 
@@ -102,7 +104,8 @@ float Temp, Pressure;
   while (1)
   {
 	 BMP280_ReadPressureAndTemperature(&BMP_280, &Pressure, &Temp);
-	 HAL_Delay(100);
+	 // need to check why are the differences between website readings and mine
+	 HAL_Delay(200);
 
 
     /* USER CODE END WHILE */
